@@ -6,7 +6,12 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
 const app = express();
+const apiVersion = "1.0.0";
+
 const routes = require("./routes");
+const adminRoutes  = require("./routes/admin");
+const errors = require("./middleware/errors");
+
 
 dotenv.load();
 
@@ -28,8 +33,19 @@ app
 
 // Routes
 
-app.use("/", routes.pub);
-app.use("/admin", routes.admin);
-app.use("/api", routes.api);
+app
+  .use(`/api/${apiVersion}`, routes)
+  .use(`/api/${apiVersion}/admin`, adminRoutes)
+  .use("*", (req, res) => {
+    res
+      .status(404)
+      .render("404");
+  });
+
+// Error Handling
+
+app
+  .use(errors.log)
+  .use(errors.server);
 
 module.exports = app;

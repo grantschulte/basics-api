@@ -1,20 +1,20 @@
 const router = require("express").Router();
-const adminMiddleware = require("../../middleware/admin");
+const auth = require("../../middleware/auth");
+const admin = require("../../middleware/admin");
 
-router.use(adminMiddleware());
+router
+  .use(auth())
+  .use(admin());
 
 router.get("/", (req, res, next) => {
-  console.log("REQ.USER: ADMIN", req.user);
+  res.json({
+    message: "Authorized admin"
+  });
+});
 
-  if (!req.user) {
-    next(err);
-  }
-
-  if (req.user.admin) {
-    res.render("admin", { title: "Admin" });
-  } else {
-    res.redirect("/login");
-  }
+router.get("/users", (req, res, next) => {
+  const users = {};
+  res.json(users);
 });
 
 module.exports = router;

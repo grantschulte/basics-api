@@ -3,21 +3,28 @@ const { checkToken } = require("../utils").token;
 module.exports = function() {
   return (req, res, next) => {
     const token = req.cookies.basicsjwt;
-    console.log("TOKEN", token);
 
     if (!token) {
-      res.status(401);
-      return res.json({
-        message: "Unauthorized"
-      });
+      res
+        .status(401)
+        .json({
+          status: 401,
+          message: "Unauthorized"
+        });
+
+      return;
     }
 
     checkToken(token, (err, decoded) => {
       if (err) {
-        next(err);
+        res
+          .status(401)
+          .json({
+            status: 401,
+            message: "Invalid token"
+          });
       }
 
-      console.log("DECODED", decoded);
       req.user = decoded;
       next();
     });

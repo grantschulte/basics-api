@@ -2,20 +2,17 @@ const { checkToken } = require("../utils").token;
 
 module.exports = function() {
   return (req, res, next) => {
-    const token = req.cookies.basicsjwt;
-    console.log("TOKEN", token);
+    console.log("ADMIN - REQ.USER", req.user);
 
-    if (!token) {
-      return res.redirect("/login");
+    if (req.user.role !== "admin") {
+      res
+        .status(403)
+        .json({
+          status: 403,
+          message: "Forbidden"
+        });
     }
 
-    checkToken(token, (err, decoded) => {
-      if (err) {
-        next(err);
-      }
-
-      console.log("DECODED", decoded);
-      req.user = decoded;
-    });
+    next();
   }
 };

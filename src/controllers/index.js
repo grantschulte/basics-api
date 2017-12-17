@@ -1,7 +1,7 @@
-const pub = require("./public");
-const api = require("./api");
+const admin = require("./admin");
+const auth = require("./auth");
 
 module.exports = {
-  pub,
-  api
+  auth,
+  admin
 };

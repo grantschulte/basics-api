@@ -1,9 +1,15 @@
-const admin = require("./admin");
-const api = require("./api");
-const pub = require("./public");
+const router = require("express").Router();
+const auth = require("../middleware/auth");
+const ctrls = require("../controllers");
 
-module.exports = {
-  admin,
-  api,
-  pub
-};
+router.use(auth());
+
+router.get("/", (req, res, next) => {
+  res.json({
+    message: "Welcome to the public API"
+  })
+});
+
+router.post("/login", ctrls.auth.validate);
+
+module.exports = router;
