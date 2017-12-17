@@ -4,7 +4,9 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+
 const app = express();
+const routes = require("./routes");
 
 dotenv.load();
 
@@ -26,8 +28,8 @@ app
 
 // Routes
 
-app.use("/", (req, res, next) => {
-  res.render("home", { title: "Home" });
-});
+app.use("/", routes.pub);
+app.use("/admin", routes.admin);
+app.use("/api", routes.api);
 
 module.exports = app;
