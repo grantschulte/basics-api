@@ -2,7 +2,7 @@ const { checkToken } = require("../utils").token;
 
 module.exports = function() {
   return (req, res, next) => {
-    const token = req.cookies.basicsjwt;
+    const token = req.headers["x-access-token"];
 
     if (!token) {
       res
@@ -23,6 +23,8 @@ module.exports = function() {
             status: 401,
             message: "Invalid token"
           });
+
+        return;
       }
 
       req.user = decoded;

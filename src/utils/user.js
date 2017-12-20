@@ -1,7 +1,9 @@
 function cleanUser(user) {
   return {
     id: user.id,
-    admin: user.admin
+    email: user.email,
+    name: user.name,
+    role: user.role
   };
 }
 

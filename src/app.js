@@ -6,9 +6,10 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
 const app = express();
-const apiVersion = "1.0.0";
+const apiVersion = "1.0";
 
 const routes = require("./routes");
+const apiRoutes = require("./routes/api");
 const adminRoutes  = require("./routes/admin");
 const errors = require("./middleware/errors");
 
@@ -34,12 +35,16 @@ app
 // Routes
 
 app
-  .use(`/api/${apiVersion}`, routes)
-  .use(`/api/${apiVersion}/admin`, adminRoutes)
+  .use(`/${apiVersion}`, routes)
+  .use(`/${apiVersion}`, apiRoutes)
+  .use(`/${apiVersion}/admin`, adminRoutes)
   .use("*", (req, res) => {
     res
       .status(404)
-      .render("404");
+      .send({
+        status: 404,
+        message: "Not Found"
+      });
   });
 
 // Error Handling

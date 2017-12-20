@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const auth = require("../../middleware/auth");
 const admin = require("../../middleware/admin");
+const ctrls = require("../../controllers/admin");
 
 router
   .use(auth())
@@ -12,9 +13,7 @@ router.get("/", (req, res, next) => {
   });
 });
 
-router.get("/users", (req, res, next) => {
-  const users = {};
-  res.json(users);
-});
+router.get("/users", ctrls.users.getAll);
+router.get("/users/:id", ctrls.users.getOne);
 
 module.exports = router;

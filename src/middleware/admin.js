@@ -11,6 +11,8 @@ module.exports = function() {
           status: 403,
           message: "Forbidden"
         });
+        
+      return;
     }
 
     next();
